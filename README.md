@@ -2,7 +2,27 @@
 
 ## 1. Create in Visual Studio 2022 Community Edition a Blazor WebAssembly application
 
+Run Visual Studio 2022 Preview version 17.2 for .NET 9 
 
+Create a new Project
+
+![image](https://github.com/user-attachments/assets/46fcc681-99d8-41a9-82a4-1d933fd180e9)
+
+Select the Blazor WebAssembly project template
+
+![image](https://github.com/user-attachments/assets/b3d02246-ded1-47d0-887c-4d0b022ba0fb)
+
+Input the project name and location in the hard disk
+
+![image](https://github.com/user-attachments/assets/5d802e4b-1801-48dc-8665-4abe07c1b618)
+
+Select the .NET 9 framework, leave the rest of the values as default and press the Create button
+
+![image](https://github.com/user-attachments/assets/0e8cce38-691e-4d0e-be68-37412e404618)
+
+See the project folders and files structure
+
+![image](https://github.com/user-attachments/assets/7e4c26d6-c12f-4926-973f-efa307026181)
 
 ## 2. Create a new folder for the service and Create a Service file for invoking the Azure Function
 
