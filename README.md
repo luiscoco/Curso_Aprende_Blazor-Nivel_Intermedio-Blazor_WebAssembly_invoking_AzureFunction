@@ -63,7 +63,7 @@ Click on **Function1** it is the Azure Function class name
 
 ![image](https://github.com/user-attachments/assets/9bb97778-bc93-46e4-a826-17988d205633)
 
-Copy the Azure Function URL in this line:
+Copy the Azure Function URL in the service **AzureFunctionService.cs** code:
 
 ```csharp
  string functionUrl = "https://myfunctionforblazor.azurewebsites.net/api/Function1?code=YUKb4eMSrWqeFw2lxL0XJUzUgBfIw3Gh-pVTeELRtym8AzFuThTRwQ%3D%3D";
@@ -71,14 +71,70 @@ Copy the Azure Function URL in this line:
 
 ## 3. Create a new component for invoking the Service
 
+```razor
+@page "/AzureFunctionComponent"
+@inject BlazorWebAssembly.Services.AzureFunctionService AzureFunctionService
+
+<h3>Azure Function Invocation</h3>
+
+<p>@message</p>
+
+<button @onclick="InvokeFunction">Call Azure Function</button>
+
+@code {
+    private string message = "Click the button to invoke the Azure Function.";
+
+    private async Task InvokeFunction()
+    {
+        // Call the Azure Function and store the response
+        message = await AzureFunctionService.InvokeAzureFunction();
+    }
+}
+```
 
 
 ## 4. Modify the middleware(Program.cs)
 
+We add this code in the Program.cs file for registering the Service to invoke the Azure Function:
 
+```
+// Register the AzureFunctionService to handle Azure Function invocations
+builder.Services.AddScoped<AzureFunctionService>();
+```
 
-## 5. Add the CORS reference in the Azure Portal
+See the middleware whole code:
 
+**Program.cs**
 
+```csharp
+using BlazorWebAssembly;
+using BlazorWebAssembly.Services;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+
+var builder = WebAssemblyHostBuilder.CreateDefault(args);
+builder.RootComponents.Add<App>("#app");
+builder.RootComponents.Add<HeadOutlet>("head::after");
+
+// Register HttpClient for Azure Function calls
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+
+// Register the AzureFunctionService to handle Azure Function invocations
+builder.Services.AddScoped<AzureFunctionService>();
+
+await builder.Build().RunAsync();
+```
+
+## 5. Add the allowed CORS origins reference in the Azure Portal
+
+Set the allowed CORS origins in API option 
+
+![image](https://github.com/user-attachments/assets/04935ee7-fa99-42a6-aa98-1a0b4f40328e)
 
 ## 6. Run a test the Blazor WebAssembly application
+
+![image](https://github.com/user-attachments/assets/6ec4e010-c101-421e-8a7f-c4573adf592d)
+
+![image](https://github.com/user-attachments/assets/2ea5ea2a-6d8e-4c82-b5f0-db5f1b080d9e)
+
+![image](https://github.com/user-attachments/assets/1b58a190-1e68-48aa-ae74-37383c51719c)
